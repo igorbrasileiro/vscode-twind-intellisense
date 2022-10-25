@@ -2,21 +2,21 @@
   "private": true,
   "name": "twind-intellisense",
   "displayName": "Twind Intellisense",
-  "description": "Intelligent Twind tooling for VS Code",
-  "version": "0.2.1",
+  "description": "Intelligent Twind tooling for Coc",
+  "version": "0.0.1",
   "preview": true,
-  "publisher": "sastan",
+  "publisher": "igorbrasileiro",
   "icon": "assets/logo.png",
   "galleryBanner": {
     "color": "#fcfcfc",
     "theme": "light"
   },
-  "bugs": "https://github.com/tw-in-js/vscode-twind-intellisense/issues",
-  "repository": "github:tw-in-js/vscode-twind-intellisense",
+  "bugs": "https://github.com/igorbrasileiro/coc-twind-intellisense/issues",
+  "repository": "github:igorbrasileiro/coc-twind-intellisense",
   "license": "MIT",
   "author": "Sascha Tandel (https://github.com/sastan)",
   "engines": {
-    "vscode": "^1.53.0"
+    "coc": "^0.0.82"
   },
   "keywords": [
     "twind",
@@ -25,14 +25,13 @@
     "css",
     "intellisense",
     "autocomplete",
-    "vscode"
+    "coc",
+    "neovim",
+    "vim"
   ],
   "categories": [
     "Linters",
     "Other"
-  ],
-  "extensionDependencies": [
-    "vscode.typescript-language-features"
   ],
   "extensionKind": [
     "workspace",
@@ -40,7 +39,16 @@
   ],
   "activationEvents": [
     "onCommand:twind.restart",
-    "onStartupFinished"
+    "onStartupFinished",
+    "workspaceContains:**/tailwind.js",
+    "workspaceContains:**/tailwind.cjs",
+    "workspaceContains:**/tailwind.config.js",
+    "workspaceContains:**/tailwind.config.cjs",
+    "workspaceContains:**/tailwind-config.js",
+    "workspaceContains:**/tailwind-config.cjs",
+    "workspaceContains:**/.tailwindrc.js",
+    "workspaceContains:**/.tailwindrc.cjs",
+    "workspaceContains:**/twind.config.ts"
   ],
   "contributes": {
     "typescriptServerPlugins": [
@@ -59,8 +67,7 @@
         "title": "Twind: Replace className strings"
       }
     ],
-    "configuration": [
-      {
+    "configuration": {
         "id": "twind",
         "title": "Twind",
         "properties": {
@@ -113,15 +120,14 @@
           }
         }
       }
-    ]
   },
   "dependencies": {
-    "@twind/typescript-plugin": "0.3.5"
+    "@twind/typescript-plugin": "0.3.5",
+    "coc.nvim": "^0.0.82"
   },
-  "main": "./out/extension.js",
+  "main": "lib/index.js",
   "scripts": {
-    "vscode:prepublish": "yarn run build",
-    "build": "esbuild src/extension.ts --outdir=out --bundle --format=cjs --platform=node --sourcemap=external --target=node10.9 --external:vscode",
+    "build": "esbuild src/extension.ts --outfile=lib/index.js --bundle --format=cjs --platform=node --sourcemap=external --target=node10.9 --external:coc.nvim",
     "watch": "yarn run build --watch",
     "pretest": "yarn run build && yarn run lint",
     "release": "npx np",
@@ -131,8 +137,7 @@
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.53.0",
     "esbuild": "^0.9.6",
-    "typescript": "^4.1.3",
-    "vscode-test": "^1.5.0"
+    "typescript": "^4.1.3"
   },
   "prettier": {
     "printWidth": 100,
